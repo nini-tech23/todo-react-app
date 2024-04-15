@@ -1,0 +1,41 @@
+.filteringTasks {
+    display: flex;
+    justify-content: space-around;
+    margin: 15px 0;
+}
+.activeFilter {
+    border: none;
+    border-bottom: 1px #fff solid;
+    outline: none;
+    background-color: transparent;
+    color: #fff;
+    cursor: pointer;
+    font-size: 18px;
+}
+.nonactiveFilter {
+    border: none;
+    outline: none;
+    background-color: transparent;
+    color: #bbb;
+    cursor: pointer;
+    font-size: 18px;
+}
+.clearBtn {
+    outline: none;
+    border: 1px solid #51abcb;
+    background-color: transparent;
+    color: #fff;
+    margin-top: 8px;
+    padding: 5px;
+    cursor: pointer;
+}
+.clearBtnContainer {
+    display: flex;
+    justify-content: center;
+}
+.clearBtn:hover {
+    background-color: #3992a4;
+}
+.notask {
+    text-align: center;
+}
