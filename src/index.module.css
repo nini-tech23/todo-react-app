@@ -1,0 +1,131 @@
+* {
+    box-sizing: border-box;
+    font-family: "Poppins";
+}
+:root {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    background-color: #51abcb;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    margin: 5% 35%;
+    padding: 2% 2% 1% 2%;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    background-color: #071e26;
+    color: #fff;
+}
+h1 {
+    text-align: center;
+}
+/* new task css style */
+.addtask {
+    display: flex;
+    border: 1px solid #51abcb;
+}
+.taskbody {
+    flex-grow: 1;
+    border: none;
+    background-color: transparent;
+    outline: none;
+    padding: 5px;
+}
+.taskbody:focus {
+    border: 1px solid #51abcb;
+    background-color: #e8f0fe;
+}
+.submitBtn {
+    background-color: #51abcb;
+    color: #fff;
+    border: none;
+    outline: none;
+    padding: 5px;
+    cursor: pointer;
+}
+.submitBtn:hover {
+    background-color: #3992a4;
+}
+/* task css style */
+li {
+    list-style: none;
+    margin-bottom: 10px;
+    background-color: #51abcb;
+    padding: 5px 5px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.checkbox {
+    margin-right: 10px;
+}
+
+.editingTaskInput {
+    outline: none;
+    border: none;
+    border-radius: 3px;
+}
+.strikeThrough {
+    text-decoration: line-through; /* CSS property to strike-through the text */
+    color: #bbb; /* Optional: change color to indicate completion */
+}
+
+.editBtn,
+.delBtn,
+.saveBtn,
+.cancelBtn {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* taskList css style part */
+.filteringTasks {
+    display: flex;
+    justify-content: space-around;
+    margin: 15px 0;
+}
+.activeFilter {
+    border: none;
+    border-bottom: 1px #fff solid;
+    outline: none;
+    background-color: transparent;
+    color: #fff;
+    cursor: pointer;
+    font-size: 18px;
+}
+.nonactiveFilter {
+    border: none;
+    outline: none;
+    background-color: transparent;
+    color: #bbb;
+    cursor: pointer;
+    font-size: 18px;
+}
+.clearBtn {
+    outline: none;
+    border: 1px solid #51abcb;
+    background-color: transparent;
+    color: #fff;
+    margin-top: 8px;
+    padding: 5px;
+    cursor: pointer;
+}
+.clearBtnContainer {
+    display: flex;
+    justify-content: center;
+}
+.clearBtn:hover {
+    background-color: #3992a4;
+}
+.notask {
+    text-align: center;
+}

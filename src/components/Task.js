@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { MdDelete } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
-import classes from "./Task.module.css";
+import classes from "../index.module.css";
 
 export default function Task({ task, onEdit, onDelete, onCheckboxChange }) {
     const [isEditing, setIsEditing] = useState(false);

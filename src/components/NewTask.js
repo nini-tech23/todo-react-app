@@ -1,15 +1,24 @@
-import classes from "./NewTask.module.css";
-export default function NewTask(props) {
-    
-
+import classes from "../index.module.css";
+const NewTask = (props) => {
     return (
         <>
-            <form className={classes.addtask} onSubmit={props.onAdd}>
-                <input type="text" placeholder="What is the task today?" className={classes.taskbody} onChange={props.newTaskText} value={props.enteredTask} />
-                <button className={classes.submitBtn} type="submit">
+            <form
+                className={classes.addtask}
+                onSubmit={props.onAdd}>
+                <input
+                    type="text"
+                    placeholder="What is the task today?"
+                    className={classes.taskbody}
+                    onChange={props.newTaskText}
+                    value={props.enteredTask}
+                />
+                <button
+                    className={classes.submitBtn}
+                    type="submit">
                     Add Task
                 </button>
             </form>
         </>
     );
-}
+};
+export default NewTask;

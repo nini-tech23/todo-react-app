@@ -1,28 +1,31 @@
-import Task from "./Task";
-import NewTask from "./NewTask";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+import axios from "axios";
 import { ToastContainer } from "react-toastify";
 import { showSuccessToast, showErrorToast } from "../utils/toastNot";
-import classes from "./TaskList.module.css";
 import CustomConfirmAlert from "../utils/confirmDialog";
-export default function TaskList() {
+import Task from "../components/Task";
+import NewTask from "../components/NewTask";
+import classes from "../index.module.css";
+const HomePage = () => {
     const [enteredTask, setEnteredTask] = useState("");
     const [allTasks, setAllTasks] = useState([]);
     const [filterValue, setFilter] = useState("All");
+    const apiUrl = process.env.REACT_APP_API_URL;
+
+    const fetchTasks = useCallback(async () => {
+        try {
+            const { data } = await axios.get(apiUrl);
+            setAllTasks(data);
+        } catch (error) {
+            console.error("Error fetching tasks:", error);
+        }
+    }, [apiUrl]);
+
     // Fetch tasks from the server
     useEffect(() => {
-        const fetchTasks = async () => {
-            try {
-                const response = await fetch("http://localhost:5000/tasks");
-                const data = await response.json();
-                setAllTasks(data);
-            } catch (error) {
-                console.error("Error fetching tasks:", error);
-            }
-        };
-
         fetchTasks();
-    }, []);
+    }, [fetchTasks]);
+
     const filteredTasks = allTasks.filter((task) => {
         switch (filterValue) {
             case "All":
@@ -40,29 +43,23 @@ export default function TaskList() {
     //     setEnteredTask(e.target.value);
     // }
 
-    let newTaskText = (e) => {
+    const newTaskText = (e) => {
         setEnteredTask(e.target.value);
     };
 
-    function addTaskHandler(e) {
+    const addTaskHandler = (e) => {
         e.preventDefault();
         if (!enteredTask.trim()) {
             showErrorToast("Please enter a task");
             return;
         }
-        fetch("http://localhost:5000/tasks", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
+        axios
+            .post(apiUrl, {
                 taskBody: enteredTask,
                 completed: false,
-            }),
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                setAllTasks((prevTasks) => [...prevTasks, data]);
+            })
+            .then(() => {
+                fetchTasks();
                 showSuccessToast("Task successfully added!");
                 setEnteredTask("");
             })
@@ -70,42 +67,34 @@ export default function TaskList() {
                 console.error("Error adding task:", error);
                 showErrorToast("Failed to add task");
             });
-    }
+    };
     // Edit task handler
-    function taskEditHandler(index, newTaskValue) {
+    const taskEditHandler = (index, newTaskValue) => {
         const task = allTasks[index];
-        fetch(`http://localhost:5000/tasks/${task._id}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
+        axios
+            .put(`${apiUrl}/${task._id}`, {
                 ...task,
                 taskBody: newTaskValue,
-            }),
-        })
-            .then((response) => response.json())
-            .then((updatedTask) => {
-                setAllTasks((prevTasks) => prevTasks.map((item, idx) => (idx === index ? updatedTask : item)));
+            })
+            .then(() => {
+                fetchTasks();
                 showSuccessToast("Task successfully edited!");
             })
             .catch((error) => {
                 console.error("Error updating task:", error);
                 showErrorToast("Failed to edit task");
             });
-    }
+    };
     //Task delete handler
-    function taskDeleteHandler(taskToDelete) {
+    const taskDeleteHandler = (taskToDelete) => {
         const confirm = CustomConfirmAlert({
             title: "Confirm Delete",
             message: "Are you sure you want to delete this task?",
             onConfirm: () => {
-                fetch(`http://localhost:5000/tasks/${taskToDelete._id}`, {
-                    method: "DELETE",
-                })
-                    .then((response) => response.json())
+                axios
+                    .delete(`${apiUrl}/${taskToDelete._id}`)
                     .then(() => {
-                        setAllTasks((prevTasks) => prevTasks.filter((task) => task._id !== taskToDelete._id));
+                        fetchTasks();
                         showSuccessToast("Task successfully deleted!");
                     })
                     .catch((error) => {
@@ -116,42 +105,35 @@ export default function TaskList() {
         });
 
         confirm.submit();
-    }
+    };
 
     //Task check handler
-    function taskCheckHandler(index) {
+    const taskCheckHandler = (index) => {
         const task = allTasks[index];
-        fetch(`http://localhost:5000/tasks/${task._id}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
+        axios
+            .put(`${apiUrl}/${task._id}`, {
                 ...task,
                 completed: !task.completed,
-            }),
-        })
-            .then((response) => response.json())
-            .then((updatedTask) => {
-                setAllTasks((prevTasks) => prevTasks.map((item, idx) => (idx === index ? updatedTask : item)));
+            })
+            .then(() => {
+                fetchTasks();
                 showSuccessToast("Task completion status updated!");
             })
             .catch((error) => {
                 console.error("Error updating task status:", error);
                 showErrorToast("Failed to update task status");
             });
-    }
+    };
     //clearAll handler
-    function clearAllHandler() {
+    const clearAllHandler = () => {
         const confirm = CustomConfirmAlert({
             title: "Confirm Delete",
-            message: "Are you sure you want to delete ALL tasks?",
+            message: "Are you sure to delete ALL tasks?",
             onConfirm: () => {
-                fetch("http://localhost:5000/tasks/all", {
-                    method: "DELETE",
-                })
-                    .then((response) => response.json())
-                    .then((data) => {
+                axios
+                    .delete(`${apiUrl}/all`)
+                    .then(() => {
+                        fetchTasks();
                         showSuccessToast("All tasks deleted successfully");
                     })
                     .catch((error) => {
@@ -162,7 +144,7 @@ export default function TaskList() {
         });
 
         confirm.submit();
-    }
+    };
 
     return (
         <>
@@ -211,4 +193,5 @@ export default function TaskList() {
             </div>
         </>
     );
-}
+};
+export default HomePage;
