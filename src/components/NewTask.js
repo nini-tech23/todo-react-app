@@ -9,7 +9,6 @@ const NewTask = ({ onAdd, newTaskText, enteredTask}) => {
                     placeholder="What is the task today?"
                     className={classes.taskbody}
                     onChange={newTaskText}
-                    value={enteredTask}
                 />
                 <button
                     className={classes.submitBtn}

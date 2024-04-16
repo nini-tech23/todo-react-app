@@ -7,7 +7,7 @@ import classes from "../index.module.css";
 
 const TasksBoard = () => {
     const [filterValue, setFilter] = useState("All");
-    const { enteredTask, newTaskText, fetchTasks, filterList, addTask, editTask, deleteTask, toggleTaskCompletion, deleteAll } = useTasks();
+    const { newTaskText, fetchTasks, filterList, addTask, editTask, deleteTask, toggleTaskCompletion, deleteAll } = useTasks();
     // Fetch tasks from the server
     useEffect(() => {
         fetchTasks();
@@ -20,7 +20,6 @@ const TasksBoard = () => {
             <NewTask
                 newTaskText={(e) => newTaskText(e)}
                 onAdd={(e) => addTask(e)}
-                enteredTask={enteredTask}
             />
             <div className={classes.filteringTasks}>
                 <button
