@@ -1,16 +1,15 @@
 import classes from "../index.module.css";
-const NewTask = (props) => {
+const NewTask = ({ onAdd, newTaskText, enteredTask}) => {
     return (
-        <>
             <form
                 className={classes.addtask}
-                onSubmit={props.onAdd}>
+                onSubmit={onAdd}>
                 <input
                     type="text"
                     placeholder="What is the task today?"
                     className={classes.taskbody}
-                    onChange={props.newTaskText}
-                    value={props.enteredTask}
+                    onChange={newTaskText}
+                    value={enteredTask}
                 />
                 <button
                     className={classes.submitBtn}
@@ -18,7 +17,6 @@ const NewTask = (props) => {
                     Add Task
                 </button>
             </form>
-        </>
     );
 };
 export default NewTask;
