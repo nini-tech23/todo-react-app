@@ -1,6 +1,8 @@
 * {
     box-sizing: border-box;
     font-family: "Poppins";
+    margin: 0;
+    padding: 0;
 }
 :root {
     font-weight: 400;
@@ -14,16 +16,20 @@
     -webkit-text-size-adjust: 100%;
 }
 
-body {
-    margin: 5% 35%;
-    padding: 2% 2% 1% 2%;
-    border-radius: 6px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    background-color: #071e26;
-    color: #fff;
+/* mainheader css style */
+.mainheadercontainer {
+    background-color: rgba(7, 30, 38);
+    margin: 0;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-h1 {
+.mainheader {
     text-align: center;
+    color: #fff;
+    font-size: 50px;
+    font-weight: 700;
 }
 /* new task css style */
 .addtask {
@@ -78,16 +84,34 @@ li {
 }
 
 .editBtn,
-.delBtn,
-.saveBtn,
-.cancelBtn {
+.delBtn {
     border: none;
     background-color: transparent;
     cursor: pointer;
     font-size: 16px;
 }
+.editBtn {
+    margin-right: 7px;
+}
+.detailLink {
+    color: rgba(7, 30, 38);
+    cursor: pointer;
+    margin-right: 10px;
+}
 
-/* taskList css style part */
+/* HomePage css style part */
+.taskboardheader {
+    text-align: center;
+    padding-bottom: 20px;
+}
+.taskBoardContainer {
+    margin: 5% 35%;
+    padding: 2% 2% 1% 2%;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    background-color: rgba(7, 30, 38);
+    color: #fff;
+}
 .filteringTasks {
     display: flex;
     justify-content: space-around;
@@ -128,4 +152,32 @@ li {
 }
 .notask {
     text-align: center;
+}
+/* taskdetail css */
+.taskdetailcontainer {
+    margin: 5% 35%;
+    padding: 1% 2% 1% 2%;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    background-color: rgba(7, 30, 38);
+    color: #fff;
+}
+.taskdetailcontainer h1 {
+    text-align: center;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #fff;
+}
+.iconcontainer {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1rem;
+}
+.closeicon {
+    border: none;
+    outline: none;
+    background-color: transparent;
+    cursor: pointer;
+    font-size: 24px;
+    color: white;
 }

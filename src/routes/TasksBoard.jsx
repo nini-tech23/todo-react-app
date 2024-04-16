@@ -6,7 +6,7 @@ import CustomConfirmAlert from "../utils/confirmDialog";
 import Task from "../components/Task";
 import NewTask from "../components/NewTask";
 import classes from "../index.module.css";
-const HomePage = () => {
+const TasksBoard = () => {
     const [enteredTask, setEnteredTask] = useState("");
     const [allTasks, setAllTasks] = useState([]);
     const [filterValue, setFilter] = useState("All");
@@ -38,10 +38,6 @@ const HomePage = () => {
                 return true;
         }
     });
-    // Add task handler
-    // function newTaskText(e) {
-    //     setEnteredTask(e.target.value);
-    // }
 
     const newTaskText = (e) => {
         setEnteredTask(e.target.value);
@@ -147,8 +143,9 @@ const HomePage = () => {
     };
 
     return (
-        <>
+        <div className={classes.taskBoardContainer}>
             <ToastContainer />
+            <h1 className={classes.taskboardheader}>Get Things Done!</h1>
             <NewTask
                 newTaskText={newTaskText}
                 onAdd={addTaskHandler}
@@ -191,7 +188,7 @@ const HomePage = () => {
                     Clear All
                 </button>
             </div>
-        </>
+        </div>
     );
 };
-export default HomePage;
+export default TasksBoard;

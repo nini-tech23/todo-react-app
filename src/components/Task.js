@@ -1,8 +1,9 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
+import { CgDetailsMore } from "react-icons/cg";
 import classes from "../index.module.css";
-
 export default function Task({ task, onEdit, onDelete, onCheckboxChange }) {
     const [isEditing, setIsEditing] = useState(false);
     const [editValue, setEditValue] = useState(task.taskBody);
@@ -48,6 +49,11 @@ export default function Task({ task, onEdit, onDelete, onCheckboxChange }) {
                 )}
             </div>
             <div>
+                <Link
+                    to={`/tasks/${task._id}`}
+                    className={classes.detailLink}>
+                    <CgDetailsMore />
+                </Link>
                 <button
                     className={classes.editBtn}
                     onClick={handleEditClick}>
