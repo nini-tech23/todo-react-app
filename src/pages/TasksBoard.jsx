@@ -1,90 +1,25 @@
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import { ToastContainer } from "react-toastify";
-
-import { showErrorToast } from "../utils/toastNot";
 import useTasks from "../hooks/useTasks";
-import CustomConfirmAlert from "../utils/confirmDialog";
 import Task from "../components/Task";
 import NewTask from "../components/NewTask";
 import classes from "../index.module.css";
 
 const TasksBoard = () => {
-    const [enteredTask, setEnteredTask] = useState("");
     const [filterValue, setFilter] = useState("All");
-    const {allTasks, fetchTasks, addTask, editTask, deleteTask, toggleTaskCompletion, deleteAll} = useTasks();
+    const { enteredTask, newTaskText, fetchTasks, filterList, addTask, editTask, deleteTask, toggleTaskCompletion, deleteAll } = useTasks();
     // Fetch tasks from the server
     useEffect(() => {
         fetchTasks();
     }, [fetchTasks]);
-
-    const filteredTasks = allTasks.filter((task) => {
-        switch (filterValue) {
-            case "All":
-                return true;
-            case "Pending":
-                return !task.completed;
-            case "Completed":
-                return task.completed;
-            default:
-                return true;
-        }
-    });
-
-    const newTaskText = (e) => {
-        setEnteredTask(e.target.value);
-    };
-
-    const addTaskHandler = (e) => {
-        e.preventDefault();
-        if (!enteredTask.trim()) {
-            showErrorToast("Please enter a task");
-            return;
-        }
-        addTask(enteredTask);
-        setEnteredTask('');
-    };
-    // Edit task handler
-    const taskEditHandler = (index, newTaskValue) => {
-        const task = allTasks[index];
-        editTask(task._id, newTaskValue)
-    };
-    //Task delete handler
-    const taskDeleteHandler = (taskToDelete) => {
-        const confirm = CustomConfirmAlert({
-            title: "Confirm Delete",
-            message: "Are you sure you want to delete this task?",
-            onConfirm: () => {
-                deleteTask(taskToDelete._id)
-            },
-        });
-        confirm.submit();
-    };
-
-    //Task check handler
-    const taskCheckHandler = (index) => {
-        const task = allTasks[index];
-        toggleTaskCompletion(task._id, !task.completed);
-    };
-    //clearAll handler
-    const clearAllHandler = () => {
-        const confirm = CustomConfirmAlert({
-            title: "Confirm Delete",
-            message: "Are you sure to delete ALL tasks?",
-            onConfirm: () => {
-                deleteAll();
-            },
-        });
-
-        confirm.submit();
-    };
 
     return (
         <div className={classes.taskBoardContainer}>
             <ToastContainer />
             <h1 className={classes.taskboardheader}>Get Things Done!</h1>
             <NewTask
-                newTaskText={newTaskText}
-                onAdd={addTaskHandler}
+                newTaskText={(e) => newTaskText(e)}
+                onAdd={(e) => addTask(e)}
                 enteredTask={enteredTask}
             />
             <div className={classes.filteringTasks}>
@@ -104,14 +39,14 @@ const TasksBoard = () => {
                     Completed
                 </button>
             </div>
-            {filteredTasks.length > 0 ? (
-                filteredTasks.map((task, index) => (
+            {filterList(filterValue).length > 0 ? (
+                filterList(filterValue).map((task) => (
                     <Task
                         key={task._id}
                         task={task}
-                        onEdit={(newTaskValue) => taskEditHandler(index, newTaskValue)}
-                        onDelete={() => taskDeleteHandler(task)}
-                        onCheckboxChange={() => taskCheckHandler(index)}
+                        onEdit={(newTaskValue) => editTask(task._id, newTaskValue)}
+                        onDelete={() => deleteTask(task._id)}
+                        onCheckboxChange={() => toggleTaskCompletion(task._id, !task.completed)}
                     />
                 ))
             ) : (
@@ -120,7 +55,7 @@ const TasksBoard = () => {
             <div className={classes.clearBtnContainer}>
                 <button
                     className={classes.clearBtn}
-                    onClick={clearAllHandler}>
+                    onClick={deleteAll}>
                     Clear All
                 </button>
             </div>
