@@ -112,7 +112,7 @@ const useTasks = () => {
         confirm.submit();
     };
 
-    return { newTaskText, fetchTasks, filterList, addTask, editTask, deleteTask, toggleTaskCompletion, deleteAll };
+    return { enteredTask, newTaskText, fetchTasks, filterList, addTask, editTask, deleteTask, toggleTaskCompletion, deleteAll };
 };
 
 export default useTasks;

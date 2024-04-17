@@ -1,5 +1,5 @@
 import classes from "../index.module.css";
-const NewTask = ({ onAdd, newTaskText, enteredTask}) => {
+const NewTask = ({ onAdd, newTaskText, onValue}) => {
     return (
             <form
                 className={classes.addtask}
@@ -9,6 +9,7 @@ const NewTask = ({ onAdd, newTaskText, enteredTask}) => {
                     placeholder="What is the task today?"
                     className={classes.taskbody}
                     onChange={newTaskText}
+                    value={onValue}
                 />
                 <button
                     className={classes.submitBtn}

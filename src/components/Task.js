@@ -1,33 +1,11 @@
-import { useState } from "react";
 import { MdDelete } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
 import { CgDetailsMore } from "react-icons/cg";
 import Modal from "react-modal";
+import useTask from "../hooks/useTask";
 import classes from "../index.module.css";
 export default function Task({ task, onEdit, onDelete, onCheckboxChange }) {
-    const [isEditing, setIsEditing] = useState(false);
-    const [editValue, setEditValue] = useState(task.taskBody);
-    const [modalIsOpen, setModalIsOpen] = useState(false);
-    const handleEditClick = () => {
-        setIsEditing(true);
-    };
-    const handleInputChange = (e) => {
-        setEditValue(e.target.value);
-    };
-
-    // Handle key press events in the input field
-    const handleKeyPress = (e) => {
-        if (e.key === "Enter") {
-            onEdit(editValue); // Save the changes
-            setIsEditing(false); // Exit editing mode
-        }
-    };
-    const openModal = () => {
-        setModalIsOpen(true);
-    };
-    const closeModal = () => {
-        setModalIsOpen(false);
-    };
+    const { isEditing, setIsEditing, editValue, modalIsOpen, handleEditClick, handleInputChange, handleKeyPress, openModal, closeModal } = useTask(task, onEdit);
     return (
         <li>
             <div>
@@ -41,8 +19,8 @@ export default function Task({ task, onEdit, onDelete, onCheckboxChange }) {
                     <input
                         type="text"
                         value={editValue}
-                        onChange={handleInputChange}
-                        onKeyDown={handleKeyPress}
+                        onChange={(e) => handleInputChange(e)}
+                        onKeyDown={(e) => handleKeyPress(e)}
                         onBlur={() => setIsEditing(false)} // Exit editing mode when focus is lost
                         className={classes.editingTaskInput}
                         autoFocus
@@ -96,7 +74,11 @@ export default function Task({ task, onEdit, onDelete, onCheckboxChange }) {
                     </tbody>
                 </table>
                 <div className={classes.closeBtnContainer}>
-                    <button className= {classes.closeBtn} onClick={closeModal}>Close</button>
+                    <button
+                        className={classes.closeBtn}
+                        onClick={closeModal}>
+                        Close
+                    </button>
                 </div>
             </Modal>
         </li>
