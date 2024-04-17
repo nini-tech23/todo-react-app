@@ -1,11 +1,11 @@
 import { MdDelete } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
 import { CgDetailsMore } from "react-icons/cg";
-import Modal from "react-modal";
 import useTask from "../hooks/useTask";
+import { default as openModal } from "../hooks/useDetailView";
 import classes from "../index.module.css";
-export default function Task({ task, onEdit, onDelete, onCheckboxChange }) {
-    const { isEditing, setIsEditing, editValue, modalIsOpen, handleEditClick, handleInputChange, handleKeyPress, openModal, closeModal } = useTask(task, onEdit);
+const Task = ({ task, onEdit, onDelete, onCheckboxChange }) => {
+    const { isEditing, setIsEditing, editValue, handleEditClick, handleInputChange, handleKeyPress } = useTask(task, onEdit);
     return (
         <li>
             <div>
@@ -21,7 +21,7 @@ export default function Task({ task, onEdit, onDelete, onCheckboxChange }) {
                         value={editValue}
                         onChange={(e) => handleInputChange(e)}
                         onKeyDown={(e) => handleKeyPress(e)}
-                        onBlur={() => setIsEditing(false)} // Exit editing mode when focus is lost
+                        onBlur={() => setIsEditing(false)}
                         className={classes.editingTaskInput}
                         autoFocus
                     />
@@ -36,7 +36,7 @@ export default function Task({ task, onEdit, onDelete, onCheckboxChange }) {
             <div>
                 <button
                     className={classes.detailBtn}
-                    onClick={openModal}>
+                    onClick={() => openModal(task)}>
                     <CgDetailsMore />
                 </button>
                 <button
@@ -50,37 +50,7 @@ export default function Task({ task, onEdit, onDelete, onCheckboxChange }) {
                     <MdDelete />
                 </button>
             </div>
-            <Modal
-                isOpen={modalIsOpen}
-                onRequestClose={closeModal}
-                contentLabel="Task Details"
-                className={classes.modal}
-                overlayClassName={classes.overlay}>
-                <h2>Task Details</h2>
-                <table>
-                    <tbody>
-                        <tr>
-                            <td>Task ID: &nbsp; &nbsp; &nbsp; </td>
-                            <td>{task._id}</td>
-                        </tr>
-                        <tr>
-                            <td>Task Description: &nbsp; &nbsp; &nbsp; </td>
-                            <td>{task.taskBody}</td>
-                        </tr>
-                        <tr>
-                            <td>Task Completence: &nbsp; &nbsp; &nbsp; </td>
-                            <td>{task.completed ? "Completed" : "Pending"}</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div className={classes.closeBtnContainer}>
-                    <button
-                        className={classes.closeBtn}
-                        onClick={closeModal}>
-                        Close
-                    </button>
-                </div>
-            </Modal>
         </li>
     );
-}
+};
+export default Task;

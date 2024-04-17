@@ -1,9 +1,7 @@
-import React from "react";
 import RootLayout from "./components/RootLayout";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import TasksBoard from "./pages/TasksBoard";
-import Modal from "react-modal";
-Modal.setAppElement('#root'); 
+import TaskDetail from "./pages/TaskDetail";
 const router = createBrowserRouter([
     {
         path: "/",
@@ -12,6 +10,12 @@ const router = createBrowserRouter([
             {
                 path: "/",
                 element: <TasksBoard />,
+                children: [
+                    {
+                        path: "/tasks/:id",
+                        element: <TaskDetail />,
+                    },
+                ],
             },
         ],
     },

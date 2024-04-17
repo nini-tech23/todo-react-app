@@ -2,7 +2,6 @@ import { useState } from "react";
 const useTask = (task, onEdit) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editValue, setEditValue] = useState(task.taskBody);
-    const [modalIsOpen, setModalIsOpen] = useState(false);
     const handleEditClick = () => {
         setIsEditing(true);
     };
@@ -17,12 +16,6 @@ const useTask = (task, onEdit) => {
             setIsEditing(false); // Exit editing mode
         }
     };
-    const openModal = () => {
-        setModalIsOpen(true);
-    };
-    const closeModal = () => {
-        setModalIsOpen(false);
-    };
-    return { isEditing, setIsEditing, editValue, modalIsOpen, handleEditClick, handleInputChange, handleKeyPress, openModal, closeModal };
+    return { isEditing, setIsEditing, editValue, handleEditClick, handleInputChange, handleKeyPress};
 };
 export default useTask;
